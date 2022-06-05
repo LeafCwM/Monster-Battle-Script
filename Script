@@ -1,0 +1,42 @@
+--[[
+Made by plo
+Edited by LeafCwM
+press "E" to activate or deactivate
+
+I recommend to use this in a private server or else you might be flagged, the dev's are actively seeking out exploiters.
+I believe this will only work with synapse because of the mouse1click() function, sorry.
+After a while of using this the script might break.  
+--]]
+enabled = false
+game:GetService('RunService').RenderStepped:connect(function()
+    if enabled then
+        wait(1)
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer
+        local character = player.Character
+        local hasSword = character:FindFirstChild("Melee")
+        if hasSword then    --do nothing
+                else
+                    keypress(0x32) --press 2 on your keyboard
+        end
+        
+        for i, v in pairs (game.workspace.Enemies['Boost Stone']:GetChildren()) do --find stones
+            if v.Name == "HumanoidRootPart" then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame --tp to stones
+                mouse1click()
+            end
+        end
+    end
+end)
+game:GetService('UserInputService').InputBegan:connect(function(k)
+  if k.KeyCode == Enum.KeyCode.E then
+      enabled = not enabled
+  end
+end)
+
+--Anti afk, not sure who made it but credits to it's owner
+local VirtualUser=game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
